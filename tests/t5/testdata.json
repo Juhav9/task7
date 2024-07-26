@@ -1,0 +1,26 @@
+{
+  "join": [
+    {
+      "data": {
+        "Item1": 4,
+        "Item2": 10
+      },
+      "result": {
+        "Item1": 4,
+        "Item2": 5,
+        "Item3": "/person/details/4"
+      }
+    },
+    {
+      "data": {
+        "Item1": 3,
+        "Item2": 20
+      },
+      "result": {
+        "Item1": 4,
+        "Item2": 5,
+        "Item3": "/person/details/3"
+      }
+    }    
+  ]
+}

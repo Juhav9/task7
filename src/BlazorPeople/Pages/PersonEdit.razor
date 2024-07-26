@@ -1,0 +1,46 @@
+﻿@page "/person/edit/{Id:int}"
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+<h3>PersonEdit</h3>
+@if(person==null)
+{
+	<p>NotFound</p>
+}
+else
+{
+	<EditForm Model="person" OnSubmit="Submit">
+		<label>
+			FirstName:
+			<InputText @bind-Value="person!.FirstName" />
+		</label><br />
+		<label>
+			LastName:
+			<InputText @bind-Value="person!.LastName" />
+		</label><br />
+		<label>
+			Title:
+			<InputText @bind-Value="person!.Title" />
+		</label>
+		<button id="save" type="submit">Save changes</button>
+	</EditForm>
+}
+
+@code {
+	[Parameter]
+	public int Id{ get; set; }
+	public Person? person { get; set; }
+	private IEnumerable<Person>? people { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		people = await Http.GetFromJsonAsync<Person[]>("/people");
+		person = people.First(p => p.Id == Id);
+	}
+
+	private async Task Submit()
+	{
+		await Http.PutAsJsonAsync($"/People/{Id}", person);
+		Navigation.NavigateTo($"/person/details/{Id}");
+	}
+}

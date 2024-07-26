@@ -1,0 +1,28 @@
+{
+  "put": [
+    {
+      "data": 1,
+      "result": {
+        "Item1": 3,
+        "Item2": {
+          "id": 1,
+          "firstName": "Jean",
+          "lastName": "Riker",
+          "title": "Commander"
+        }
+      }
+    },
+    {
+      "data": 2,
+      "result": {
+        "Item1": 3,
+        "Item2": {
+          "id": 2,
+          "firstName": "Deanna",
+          "lastName": "Picard",
+          "title": "Counselor"
+        }
+      }
+    }    
+  ]
+}

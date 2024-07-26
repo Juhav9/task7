@@ -1,0 +1,30 @@
+﻿@page "/address/create"
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+<h3>CreateAddress</h3>
+
+<EditForm Model="address" OnSubmit="Submit">
+	<label>SteertName:
+	<InputText @bind-Value="address!.StreetAddress"/>
+	</label> <br />
+	<label>PostalAddress: 
+	<InputText @bind-Value="address!.PostalAddress"/>
+	</label> <br />
+	<label>PostalNumber: 
+	<InputNumber @bind-Value="address!.PostalNumber"/>
+	</label>
+	<button id="addaddress" type="submit">Add new address item</button>
+</EditForm>
+
+@code {
+	private Address? address{ get; set; }
+
+	protected override void OnInitialized() => address ??= new();
+
+	private async Task Submit()
+	{
+		await Http.PostAsJsonAsync("address", address);
+		Navigation.NavigateTo("/");
+	}
+}

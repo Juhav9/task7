@@ -1,0 +1,68 @@
+﻿@page "/person/details/{Id:int}"
+@inject HttpClient Http
+
+    @if(person==null||addresses==null)
+    {
+        
+    }
+    else
+    {
+    <h3>Details</h3>
+    <div id="personcontent">
+        <p>@person.FirstName</p>
+        <p>@person.LastName</p>
+        <p>@person.Title</p>
+        @if (addresses.Count()==0)
+        {
+            <p>Selected person does not have any addresses</p>
+        }else
+            {
+                <table>
+                <tr>
+                    <th>ID</th>
+                    <th>SteertAddress</th>
+                    <th>PostalAddress</th>
+                    <th>PostalNumber</th>
+                </tr>
+                @foreach (var item in addresses)
+                {
+                    <tr>
+                        <td>@item.id</td>
+                        <td>@item.StreetAddress</td>
+                        <td>@item.PostalAddress</td>
+                        <td>@item.PostalNumber</td>
+                        @if (contactInfo != null)
+                        {
+                            <td>@contactInfo.First(c=>c.AddressId==item.id).Info</td>
+                        }
+                    </tr>
+                }
+            </table>
+            }
+        <a href="/person/edit/@person.Id">Edit</a>
+    </div>
+    }
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private IEnumerable<ContactInfo>? contactInfo;
+    private IEnumerable<Address>? addresses;
+    private IEnumerable<Person>? people;
+    private Person? person;
+    private IEnumerable<int>? addressIds;
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await Http.GetFromJsonAsync<Person[]>("/people");
+        person = people.First(p => p.Id == Id);
+
+        contactInfo = await Http.GetFromJsonAsync<ContactInfo[]>("/ContactInfo");
+        contactInfo = contactInfo.Where(c => c.PersonId == Id);
+        addressIds = contactInfo.Select(i => i.AddressId);
+
+        addresses = await Http.GetFromJsonAsync<Address[]>("/Address");
+        addresses = addresses.Where(a => addressIds.Contains(a.id));
+
+    }
+}

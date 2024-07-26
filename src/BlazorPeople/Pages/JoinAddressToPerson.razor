@@ -1,0 +1,46 @@
+﻿@page "/join"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<h3>Join</h3>
+@if(addresses==null||people==null)
+{
+	
+}else
+{
+	<EditForm Model="contactInfo!" OnSubmit="Submit">
+		<InputSelect @bind-Value="contactInfo!.AddressId" id="for-address">
+			@foreach (var item in addresses!)
+			{
+				<option value="@item!.id">@item.id</option>
+			}
+		</InputSelect>
+		<InputSelect @bind-Value="contactInfo!.PersonId" id="for-person">
+			@foreach (var item in people!)
+			{
+				<option value="@item!.Id">@item.Id</option>
+			}
+		</InputSelect>
+		<InputTextArea @bind-Value="contactInfo!.Info" />
+		<button id="joindata" type="submit">Join address to person</button>
+	</EditForm>
+}
+
+@code {
+	private ContactInfo? contactInfo;
+	private IEnumerable<Address>? addresses;
+	private IEnumerable<Person>? people;
+
+	protected override async Task OnInitializedAsync()
+	{
+		contactInfo = new();
+		addresses = await Http.GetFromJsonAsync<Address[]>("/Address");
+		people = await Http.GetFromJsonAsync<Person[]>("/people");
+	}
+
+	private async Task Submit()
+	{
+		await Http.PostAsJsonAsync("contactinfo", contactInfo);
+		Navigation.NavigateTo($"/person/details/{contactInfo!.PersonId}");
+	}
+}

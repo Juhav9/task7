@@ -1,0 +1,57 @@
+{
+  "get": [
+    {
+      "data": 1,
+      "result": {
+        "Item1": {
+          "id": 1,
+          "firstName": "Jean",
+          "lastName": "Riker",
+          "title": "Commander"
+        },
+        "Item2": [
+          {
+            "id": 10,
+            "streetAddress": "Boston blvd. 42",
+            "postalNumber": 45678,
+            "postalAddress": "Boston"
+          },
+          {
+            "id": 40,
+            "streetAddress": "Homelane 22",
+            "postalNumber": 98989,
+            "postalAddress": "Toronto"
+          }
+        ],
+        "Item3": [
+          {
+            "id": 100,
+            "addressId": 10,
+            "personId": 1,
+            "info": "Home address"
+          },
+          {
+            "id": 200,
+            "addressId": 20,
+            "personId": 1,
+            "info": "Office address"
+          }
+        ]
+      }
+    }
+  ],
+  "get2": [
+    {
+      "data": 3,
+      "result": {
+        "Item1": {
+          "id": 3,
+          "firstName": "Sheldon",
+          "lastName": "Young",
+          "title": "Scientist"
+        },
+        "Item2": "Selected person does not have any addresses"
+      }
+    }
+  ]
+}
